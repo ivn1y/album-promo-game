@@ -6,7 +6,7 @@ export class BootScene extends Phaser.Scene {
   }
 
   preload(): void {
-    // placeholder: здесь будет предзагрузка ассетов
+    this.load.image('street_bg', 'assets/scenes/arrival_street_concept.png');
   }
 
   create(): void {
