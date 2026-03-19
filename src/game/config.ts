@@ -1,5 +1,8 @@
 import Phaser from 'phaser';
 import { BootScene } from './scenes/BootScene';
+import { IntroScene } from './scenes/IntroScene';
+import { ArrivalWalkScene } from './scenes/ArrivalWalkScene';
+import { MeetAssistantScene } from './scenes/MeetAssistantScene';
 import { ArrivalStreetScene } from './scenes/ArrivalStreetScene';
 import { BoardingRoomScene } from './scenes/BoardingRoomScene';
 import { DreamScene } from './scenes/DreamScene';
@@ -16,5 +19,13 @@ export const gameConfig: Phaser.Types.Core.GameConfig = {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,
   },
-  scene: [BootScene, ArrivalStreetScene, BoardingRoomScene, DreamScene],
+  scene: [
+    BootScene,
+    IntroScene,
+    ArrivalWalkScene,
+    MeetAssistantScene,
+    ArrivalStreetScene,
+    BoardingRoomScene,
+    DreamScene,
+  ],
 };
