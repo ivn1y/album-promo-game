@@ -107,8 +107,9 @@ export class TextBox {
   private advance(): void {
     this.currentIndex++;
     if (this.currentIndex >= this.lines.length) {
-      this.hide();
-      this.onComplete?.();
+      const cb = this.onComplete;
+      this.onComplete = undefined;
+      this.hide(cb);
       return;
     }
     this.renderCurrent();
@@ -140,13 +141,18 @@ export class TextBox {
     });
   }
 
-  hide(): void {
+  hide(onDone?: () => void): void {
     this.active = false;
+    this.scene.tweens.killTweensOf(this.hint);
     this.scene.tweens.add({
       targets: this.container,
       alpha: 0,
-      duration: 150,
-      onComplete: () => this.container.setVisible(false),
+      duration: 600,
+      ease: 'Sine.easeOut',
+      onComplete: () => {
+        this.container.setVisible(false);
+        onDone?.();
+      },
     });
   }
 

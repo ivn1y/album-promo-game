@@ -25,10 +25,11 @@ export class ChoiceMenu {
     this.container.removeAll(true);
 
     const totalHeight = choices.length * ITEM_HEIGHT + (choices.length - 1) * ITEM_GAP;
-    const startY = GAME_HEIGHT / 2 - totalHeight / 2;
+    const bottomMargin = 24;
+    const startY = GAME_HEIGHT - bottomMargin - totalHeight;
 
     const overlay = this.scene.add
-      .rectangle(GAME_WIDTH / 2, GAME_HEIGHT / 2, GAME_WIDTH, GAME_HEIGHT, 0x05050a, 0.5);
+      .rectangle(GAME_WIDTH / 2, GAME_HEIGHT / 2, GAME_WIDTH, GAME_HEIGHT, 0x05050a, 0.4);
     this.container.add(overlay);
 
     choices.forEach((choice, i) => {
