@@ -1,11 +1,8 @@
 import Phaser from 'phaser';
 import { BootScene } from './scenes/BootScene';
 import { IntroScene } from './scenes/IntroScene';
-import { ArrivalWalkScene } from './scenes/ArrivalWalkScene';
-import { MeetAssistantScene } from './scenes/MeetAssistantScene';
-import { ArrivalStreetScene } from './scenes/ArrivalStreetScene';
-import { BoardingRoomScene } from './scenes/BoardingRoomScene';
-import { DreamScene } from './scenes/DreamScene';
+import { CityDistantScene } from './scenes/CityDistantScene';
+import { BridgeMeetScene } from './scenes/BridgeMeetScene';
 
 export const GAME_WIDTH = 1280;
 export const GAME_HEIGHT = 720;
@@ -19,13 +16,5 @@ export const gameConfig: Phaser.Types.Core.GameConfig = {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,
   },
-  scene: [
-    BootScene,
-    IntroScene,
-    ArrivalWalkScene,
-    MeetAssistantScene,
-    ArrivalStreetScene,
-    BoardingRoomScene,
-    DreamScene,
-  ],
+  scene: [BootScene, IntroScene, CityDistantScene, BridgeMeetScene],
 };
