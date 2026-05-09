@@ -2,7 +2,15 @@
 <html lang="ru">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover"
+    />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="/assets/scenes/level01/map1game.png" />
     <title>album-promo-game</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -12,7 +20,36 @@
     />
     <style>
       * { margin: 0; padding: 0; box-sizing: border-box; }
-      body { background: #0f0c0a; overflow: hidden; }
+      html, body { width: 100%; height: 100%; background: #0f0c0a; overflow: hidden; }
+      /* Портрет: просим альбом; игра скрыта до поворота */
+      .safari-fullscreen-hint {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 99998;
+        padding: 0.65rem 1rem env(safe-area-inset-bottom, 0.5rem);
+        font: 500 0.8rem/1.35 system-ui, sans-serif;
+        color: #e8e4dc;
+        text-align: center;
+        background: rgba(12, 10, 8, 0.92);
+        border-top: 1px solid rgba(200, 170, 100, 0.35);
+      }
+      html.force-landscape--portrait body::before {
+        content: 'Поверни телефон горизонтально';
+        position: fixed;
+        inset: 0;
+        z-index: 99999;
+        pointer-events: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+        text-align: center;
+        font: 600 1.15rem system-ui, sans-serif;
+        color: #e8e4dc;
+        background: rgba(8, 6, 5, 0.96);
+      }
     </style>
   </head>
   <body>

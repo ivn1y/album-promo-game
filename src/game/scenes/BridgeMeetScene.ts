@@ -208,18 +208,8 @@ export class BridgeMeetScene extends Phaser.Scene {
     glow.fillStyle(0xc4a35a, 0.12);
     glow.fillCircle(ax, ay, 28);
 
-    const gateLabel = this.add
-      .text(ax, ay + 36, 'ворота', {
-        fontFamily: FONT,
-        fontSize: '20px',
-        color: '#a89880',
-      })
-      .setOrigin(0.5)
-      .setDepth(10)
-      .setAlpha(0);
-
     this.tweens.add({
-      targets: [arrow, gateLabel],
+      targets: arrow,
       alpha: 1,
       duration: 400,
     });
@@ -251,35 +241,8 @@ export class BridgeMeetScene extends Phaser.Scene {
       .on('pointerdown', () => {
         this.cameras.main.fadeOut(1200, 0, 0, 0);
         this.cameras.main.once('camerafadeoutcomplete', () => {
-          this.showOpeningEnd();
+          this.scene.start('Map1Scene');
         });
       });
-  }
-
-  /** После ворот пока нет следующей сцены — затемнение и короткая заставка-заглушка. */
-  private showOpeningEnd(): void {
-    this.input.removeAllListeners();
-    this.input.keyboard?.removeAllListeners();
-
-    this.add
-      .rectangle(GAME_WIDTH / 2, GAME_HEIGHT / 2, GAME_WIDTH + 8, GAME_HEIGHT + 8, 0x000000)
-      .setDepth(2000);
-
-    this.add
-      .text(
-        GAME_WIDTH / 2,
-        GAME_HEIGHT / 2,
-        'Вступительная часть завершена.\nДальнейшие сцены появятся в следующих версиях.',
-        {
-          fontFamily: FONT,
-          fontSize: '26px',
-          color: '#7a7568',
-          align: 'center',
-          lineSpacing: 10,
-          wordWrap: { width: GAME_WIDTH - 120 },
-        },
-      )
-      .setOrigin(0.5)
-      .setDepth(2001);
   }
 }

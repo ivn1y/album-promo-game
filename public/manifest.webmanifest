@@ -1,0 +1,19 @@
+{
+  "name": "Album Promo Game",
+  "short_name": "Album Game",
+  "description": "Промо-игра",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "landscape-primary",
+  "background_color": "#0a0a0a",
+  "theme_color": "#0a0a0a",
+  "icons": [
+    {
+      "src": "/assets/scenes/level01/map1game.png",
+      "sizes": "1536x1024",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
