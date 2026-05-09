@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "sync:dev": "bash scripts/sync-dev.sh",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
