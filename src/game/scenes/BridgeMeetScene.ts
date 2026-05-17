@@ -3,6 +3,8 @@ import { GAME_WIDTH, GAME_HEIGHT } from '../config';
 import { meetOnBridgeUrl } from '../level01Assets';
 import { TextBox } from '../ui/TextBox';
 import { ChoiceMenu } from '../ui/ChoiceMenu';
+import { enableDebugPositionPicker } from '../devDebugPos';
+import { enableDebugHintPicker } from '../devDebugHints';
 
 const FONT = '"VT323", "Courier New", monospace';
 
@@ -91,6 +93,8 @@ export class BridgeMeetScene extends Phaser.Scene {
     const bg = this.add.image(GAME_WIDTH / 2, GAME_HEIGHT / 2, 'bridge_meet_bg');
     const sc = Math.max(GAME_WIDTH / bg.width, GAME_HEIGHT / bg.height);
     bg.setScale(sc).setDepth(0);
+    enableDebugPositionPicker(this, bg);
+    enableDebugHintPicker(this, bg);
 
     this.textBox = new TextBox(this);
     this.choiceMenu = new ChoiceMenu(this);

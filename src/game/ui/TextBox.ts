@@ -1,18 +1,33 @@
 import Phaser from 'phaser';
-import { GAME_WIDTH, GAME_HEIGHT } from '../config';
+import { GAME_HEIGHT, GAME_WIDTH } from '../config';
+import {
+  DIALOG_BG,
+  DIALOG_BG_ALPHA,
+  DIALOG_BODY_COLOR,
+  DIALOG_BODY_SIZE,
+  DIALOG_BORDER,
+  DIALOG_BORDER_ALPHA,
+  DIALOG_FONT,
+  DIALOG_INNER_BORDER,
+  DIALOG_INNER_W,
+  DIALOG_MARGIN_BOTTOM,
+  DIALOG_PAD_X,
+  DIALOG_PAD_Y,
+  DIALOG_PANEL_W,
+  DIALOG_SPEAKER_COLOR,
+  DIALOG_SPEAKER_SIZE,
+} from './dialogPanelLayout';
 
-const BOX_HEIGHT = 130;
-const BOX_MARGIN_BOTTOM = 20;
-const BOX_MARGIN_X = 30;
+const MIN_PANEL_H = 110;
+const SPEAKER_BLOCK_H = 32;
 
 export class TextBox {
   private scene: Phaser.Scene;
   private container: Phaser.GameObjects.Container;
-  private bg: Phaser.GameObjects.Rectangle;
-  private border: Phaser.GameObjects.Rectangle;
+  private backdrop: Phaser.GameObjects.Rectangle;
+  private innerStroke: Phaser.GameObjects.Rectangle;
   private speakerText: Phaser.GameObjects.Text;
-  private divider: Phaser.GameObjects.Rectangle;
-  private lineText: Phaser.GameObjects.Text;
+  private bodyText: Phaser.GameObjects.Text;
   private hint: Phaser.GameObjects.Text;
 
   private lines: { speaker: string | null; text: string }[] = [];
@@ -23,49 +38,40 @@ export class TextBox {
   constructor(scene: Phaser.Scene) {
     this.scene = scene;
 
-    const boxW = GAME_WIDTH - BOX_MARGIN_X * 2;
-    const boxY = GAME_HEIGHT - BOX_HEIGHT - BOX_MARGIN_BOTTOM;
-    const cx = GAME_WIDTH / 2;
-    const cy = boxY + BOX_HEIGHT / 2;
+    this.backdrop = scene.add.rectangle(0, 0, DIALOG_PANEL_W, MIN_PANEL_H, DIALOG_BG, DIALOG_BG_ALPHA);
+    this.backdrop.setStrokeStyle(2, DIALOG_BORDER, DIALOG_BORDER_ALPHA);
 
-    this.bg = scene.add.rectangle(cx, cy, boxW, BOX_HEIGHT, 0x0c0c14, 0.92);
+    this.innerStroke = scene.add
+      .rectangle(0, 0, DIALOG_PANEL_W - 8, MIN_PANEL_H - 8, 0x000000, 0)
+      .setStrokeStyle(1, DIALOG_INNER_BORDER, 0.6);
 
-    this.border = scene.add
-      .rectangle(cx, cy, boxW, BOX_HEIGHT)
-      .setFillStyle(0x000000, 0)
-      .setStrokeStyle(1, 0x3a3a4a);
-
-    this.speakerText = scene.add.text(BOX_MARGIN_X + 22, boxY + 14, '', {
-      fontFamily: 'serif',
-      fontSize: '15px',
-      color: '#c4a35a',
+    this.speakerText = scene.add.text(-DIALOG_PANEL_W / 2 + DIALOG_PAD_X, 0, '', {
+      fontFamily: DIALOG_FONT,
+      fontSize: DIALOG_SPEAKER_SIZE,
+      color: DIALOG_SPEAKER_COLOR,
     });
 
-    this.divider = scene.add
-      .rectangle(cx, boxY + 36, boxW - 44, 1, 0x333344, 0.5);
-
-    this.lineText = scene.add.text(BOX_MARGIN_X + 22, boxY + 46, '', {
-      fontFamily: 'serif',
-      fontSize: '19px',
-      color: '#d4d4d4',
+    this.bodyText = scene.add.text(-DIALOG_PANEL_W / 2 + DIALOG_PAD_X, 0, '', {
+      fontFamily: DIALOG_FONT,
+      fontSize: DIALOG_BODY_SIZE,
+      color: DIALOG_BODY_COLOR,
       lineSpacing: 6,
-      wordWrap: { width: boxW - 80 },
+      wordWrap: { width: DIALOG_INNER_W },
     });
 
     this.hint = scene.add
-      .text(GAME_WIDTH - BOX_MARGIN_X - 30, boxY + BOX_HEIGHT - 24, '▶', {
-        fontFamily: 'serif',
-        fontSize: '13px',
-        color: '#555555',
+      .text(DIALOG_PANEL_W / 2 - DIALOG_PAD_X - 4, 0, '▶', {
+        fontFamily: DIALOG_FONT,
+        fontSize: '22px',
+        color: '#6a6258',
       })
-      .setOrigin(0.5);
+      .setOrigin(1, 1);
 
-    this.container = scene.add.container(0, 0, [
-      this.bg,
-      this.border,
+    this.container = scene.add.container(GAME_WIDTH / 2, 0, [
+      this.backdrop,
+      this.innerStroke,
       this.speakerText,
-      this.divider,
-      this.lineText,
+      this.bodyText,
       this.hint,
     ]);
     this.container.setDepth(100);
@@ -121,11 +127,26 @@ export class TextBox {
 
     this.speakerText.setText(hasSpeaker ? line.speaker! : '');
     this.speakerText.setVisible(hasSpeaker);
-    this.divider.setVisible(hasSpeaker);
-    this.lineText.setText(line.text);
+    this.bodyText.setText(line.text);
 
-    const boxY = GAME_HEIGHT - BOX_HEIGHT - BOX_MARGIN_BOTTOM;
-    this.lineText.setY(hasSpeaker ? boxY + 46 : boxY + 24);
+    const contentH =
+      DIALOG_PAD_Y * 2 +
+      (hasSpeaker ? SPEAKER_BLOCK_H : 0) +
+      this.bodyText.height +
+      8;
+    const boxH = Math.max(MIN_PANEL_H, contentH);
+
+    this.backdrop.setSize(DIALOG_PANEL_W, boxH);
+    this.innerStroke.setSize(DIALOG_PANEL_W - 8, boxH - 8);
+
+    const cy = GAME_HEIGHT - DIALOG_MARGIN_BOTTOM - boxH / 2;
+    this.container.setY(cy);
+
+    this.speakerText.setY(-boxH / 2 + DIALOG_PAD_Y);
+    this.bodyText.setY(
+      hasSpeaker ? -boxH / 2 + DIALOG_PAD_Y + SPEAKER_BLOCK_H : -boxH / 2 + DIALOG_PAD_Y,
+    );
+    this.hint.setPosition(DIALOG_PANEL_W / 2 - DIALOG_PAD_X - 4, boxH / 2 - DIALOG_PAD_Y);
 
     const isLast = this.currentIndex >= this.lines.length - 1;
     this.hint.setText(isLast ? '✕' : '▶');
