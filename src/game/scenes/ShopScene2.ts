@@ -2,6 +2,8 @@ import Phaser from 'phaser';
 import { GAME_WIDTH, GAME_HEIGHT } from '../config';
 import { CornerNarrationBox } from '../ui/CornerNarrationBox';
 import { BottomFindPanel, type FindPanelItem } from '../ui/BottomFindPanel';
+import { enableDebugPositionPicker } from '../devDebugPos';
+import { enableDebugHintPicker } from '../devDebugHints';
 
 const FONT = '"VT323", "Courier New", monospace';
 
@@ -112,6 +114,8 @@ export class ShopScene2 extends Phaser.Scene {
     const bg = this.add.image(GAME_WIDTH / 2, GAME_HEIGHT / 2, 'shop_scene2_bg');
     const sc = Math.max(GAME_WIDTH / bg.width, GAME_HEIGHT / bg.height);
     bg.setScale(sc).setDepth(0);
+    enableDebugPositionPicker(this, bg);
+    enableDebugHintPicker(this, bg);
 
     this.cornerBox = new CornerNarrationBox(this);
     this.findPanel = new BottomFindPanel(this);

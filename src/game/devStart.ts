@@ -1,6 +1,8 @@
 /**
  * Только в `vite` dev: старт с середины, без прогона с начала.
  * Пример: `http://localhost:<порт>/?scene=ShopScene2` (порт из `npm run dev`; ключ = имя сцены).
+ * Хитбоксы: `&debugPos=1` → Shift+тяни, Shift+C / Shift+Z (`devDebugPos.ts`).
+ * Подсказки: `&debugHints=1` → панель сверху, клик по кадру; E = консоль, Delete = отмена (Mac ок).
  * Параметр в URL важнее `.env.local` → `VITE_DEV_START_SCENE`. В production игнорируется.
  */
 const DEV_STARTABLE_SCENES = [

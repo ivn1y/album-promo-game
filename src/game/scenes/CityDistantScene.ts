@@ -1,6 +1,8 @@
 import Phaser from 'phaser';
 import { GAME_WIDTH, GAME_HEIGHT } from '../config';
 import { bigcityViewUrl } from '../level01Assets';
+import { enableDebugPositionPicker } from '../devDebugPos';
+import { enableDebugHintPicker } from '../devDebugHints';
 
 const FONT = '"VT323", "Courier New", monospace';
 
@@ -42,6 +44,8 @@ export class CityDistantScene extends Phaser.Scene {
     const bg = this.add.image(GAME_WIDTH / 2, GAME_HEIGHT / 2, 'city_distant_bg');
     const s = Math.max(GAME_WIDTH / bg.width, GAME_HEIGHT / bg.height);
     bg.setScale(s).setDepth(0).setAlpha(0);
+    enableDebugPositionPicker(this, bg);
+    enableDebugHintPicker(this, bg);
 
     const panel = this.createCaptionPanel();
     panel.setDepth(4).setAlpha(0);
